@@ -16,6 +16,15 @@ import SeekBar from './scr/pages/Play/SeekBar';
 import Control from './scr/pages/Play/Control';
 import Video from 'react-native-video';
 
+import {
+  Player, MeadiaStates, Recorder
+} from 'react-native-audio-toolkit';
+
+
+//var playerAudio = new Player('http://russprince.com/hobbies/files/13%20Beethoven%20-%20Fur%20Elise.mp3');
+var playerAudio = new Player('https://elt.oup.com/elt/students/englishplusitaly/audio/sb_pre/cd01/epi_sb_pre_cd1_01.mp3?cc=it&selLanguage=it');
+
+
 type Props = {};
 export default class App extends Component<Props> {
 
@@ -82,15 +91,24 @@ export default class App extends Component<Props> {
       }), 0);
     }
   }
+  _onPlay() {
+    this.setState({paused: false})
+    playerAudio.play();
 
+  }
+    _onStop() {
+    this.setState({paused: true})
+    playerAudio.stop();
+
+  }
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Header message="Playing from Charts" />
-        <AlbumArts  url="http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg"/>
-        <TrackDetail title="Stressed Out"
-          artist="Twenty One Pilots"  />
+        <Header message="Playing from Lession" />
+        <AlbumArts  url="https://i.imgur.com/vmEhdXO.png"/>
+        <TrackDetail title="Super Kid 1"
+          artist="Super Kids"  />
         <SeekBar
           onSeek={this.seek.bind(this)}
           trackLength={this.state.totalLength}
@@ -101,8 +119,8 @@ export default class App extends Component<Props> {
           repeatOn={this.state.repeatOn}
           shuffleOn={this.state.shuffleOn}
           onPressShuffle={() => this.setState({shuffleOn: !this.state.shuffleOn})}
-          onPressPlay={() => this.setState({paused: false})}
-          onPressPause={() => this.setState({paused: true})}
+          onPressPlay={() => this._onPlay()}
+          onPressPause={() => this._onStop()}
           onBack={this.onBack.bind(this)}
           onForward={this.onForward.bind(this)}
           paused={this.state.paused}/>
